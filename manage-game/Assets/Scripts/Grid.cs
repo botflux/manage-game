@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// cette classe représente la carte
 public class Grid
 {
     private Cellule[,] cellules;

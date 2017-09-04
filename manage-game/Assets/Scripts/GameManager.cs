@@ -8,38 +8,47 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private NoiseMapSettings settings;
 
+    public bool showGizmosGrid = false;
+
     private Grid grid;
+
+    #region Components references
+    private GameObjectManager gameObjectManager;
+    #endregion
+
+    private void Awake ()
+    {
+        gameObjectManager = GetComponent<GameObjectManager>();
+    }
 
     private void Start ()
     {
-        Debug.Log("Start!");
+        Debug.Log("Start Game!");
         GenerateMap();
     }
     
     private void GenerateMap ()
     {
         float[,] noiseMap = NoiseMap.GenerateMap(settings.MapWidth, settings.MapHeight, settings.Scale, settings.Seed, settings.Octaves, settings.Persistance, settings.Lacunarity, settings.Offset);
-
         grid = new Grid(settings.MapWidth, settings.MapHeight, noiseMap);
+        gameObjectManager.InstantiateMap(grid);
     }
 
     private void OnDrawGizmos ()
     {
-        if (grid != null)
+        if (grid != null && showGizmosGrid)
         {
             Vector3 bottomLeft = transform.position - (Vector3.right * ((float)settings.MapWidth / 2f)) - (Vector3.forward * ((float)settings.MapHeight / 2f));
-
-            // debug la map
-
+            
             for (int i = 0; i < settings.MapWidth; i++)
             {
                 for (int j = 0; j < settings.MapHeight; j++)
                 {
-                    // set the cellule color
+                    // set cellule color
                     Gizmos.color = Color.Lerp(Color.white, Color.black, grid.GetCellule(i,j).Height);
-
+                    // set cellule position
                     Vector3 position = bottomLeft + Vector3.right * i + Vector3.forward * j;
-
+                    // draw hit
                     Gizmos.DrawCube(position, Vector3.one * 0.9f);
                 }
             }

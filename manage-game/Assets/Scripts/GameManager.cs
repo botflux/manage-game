@@ -5,13 +5,14 @@ using ManageGame;
 
 public class GameManager : MonoBehaviour
 {
-    private MapSettings settings = new MapSettings(30,30, 2f, 0.5f, 2, new Vector2(0,0), 10, 0, true);
+    private NoiseMapSettings settings;
     private float[,] noiseMap;
 
     private void Start ()
     {
         Debug.Log("Start!");
 
+        settings = new NoiseMapSettings(30, 30, 2f, 0.5f, 2, new Vector2(0, 0), 10, Random.Range(int.MinValue, int.MaxValue));
         noiseMap = NoiseMap.GenerateMap(settings.MapWidth, settings.MapHeight, settings.Scale, settings.Seed, settings.Octaves, settings.Persistance, settings.Lacunarity, settings.Offset);
     }
     
@@ -19,7 +20,6 @@ public class GameManager : MonoBehaviour
     {
         if (noiseMap != null)
         {
-
             Vector3 bottomLeft = transform.position - (Vector3.right * ((float)settings.MapWidth / 2f)) - (Vector3.forward * ((float)settings.MapHeight / 2f));
 
             // debug la map
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private struct MapSettings
+    private struct NoiseMapSettings
     {
         private int mapWidth;
         private int mapHeight;
@@ -49,9 +49,8 @@ public class GameManager : MonoBehaviour
         private Vector2 offset;     // 0 0
         private float scale;        // 10
         private int seed;
-        private bool useRandomSeed;
 
-        public MapSettings (int mapWidth, int mapHeight, float persistance, float lacunarity, int octaves, Vector2 offset, float scale, int seed, bool useRandomSeed)
+        public NoiseMapSettings (int mapWidth, int mapHeight, float persistance, float lacunarity, int octaves, Vector2 offset, float scale, int seed)
         {
             this.mapHeight = mapHeight;
             this.mapWidth = mapWidth;
@@ -61,7 +60,6 @@ public class GameManager : MonoBehaviour
             this.offset = offset;
             this.scale = scale;
             this.seed = seed;
-            this.useRandomSeed = useRandomSeed;
         }
 
         public float Persistance
@@ -139,19 +137,6 @@ public class GameManager : MonoBehaviour
             set
             {
                 seed = value;
-            }
-        }
-
-        public bool UseRandomSeed
-        {
-            get
-            {
-                return useRandomSeed;
-            }
-
-            set
-            {
-                useRandomSeed = value;
             }
         }
 

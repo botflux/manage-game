@@ -5,20 +5,27 @@ using ManageGame;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
     private NoiseMapSettings settings;
-    private float[,] noiseMap;
+
+    private Grid grid;
 
     private void Start ()
     {
         Debug.Log("Start!");
-
-        settings = new NoiseMapSettings(30, 30, 2f, 0.5f, 2, new Vector2(0, 0), 10, Random.Range(int.MinValue, int.MaxValue));
-        noiseMap = NoiseMap.GenerateMap(settings.MapWidth, settings.MapHeight, settings.Scale, settings.Seed, settings.Octaves, settings.Persistance, settings.Lacunarity, settings.Offset);
+        GenerateMap();
     }
     
+    private void GenerateMap ()
+    {
+        float[,] noiseMap = NoiseMap.GenerateMap(settings.MapWidth, settings.MapHeight, settings.Scale, settings.Seed, settings.Octaves, settings.Persistance, settings.Lacunarity, settings.Offset);
+
+        grid = new Grid(settings.MapWidth, settings.MapHeight, noiseMap);
+    }
+
     private void OnDrawGizmos ()
     {
-        if (noiseMap != null)
+        if (grid != null)
         {
             Vector3 bottomLeft = transform.position - (Vector3.right * ((float)settings.MapWidth / 2f)) - (Vector3.forward * ((float)settings.MapHeight / 2f));
 
@@ -29,7 +36,7 @@ public class GameManager : MonoBehaviour
                 for (int j = 0; j < settings.MapHeight; j++)
                 {
                     // set the cellule color
-                    Gizmos.color = Color.Lerp(Color.white, Color.black, noiseMap[i,j]);
+                    Gizmos.color = Color.Lerp(Color.white, Color.black, grid.GetCellule(i,j).Height);
 
                     Vector3 position = bottomLeft + Vector3.right * i + Vector3.forward * j;
 
@@ -39,15 +46,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [System.Serializable]
     private struct NoiseMapSettings
     {
+        [SerializeField]
         private int mapWidth;
+        [SerializeField]
         private int mapHeight;
+        [SerializeField]
         private float persistance;  // 2
+        [SerializeField]
         private float lacunarity;   // 0.5
+        [SerializeField]
         private int octaves;        // 2
+        [SerializeField]
         private Vector2 offset;     // 0 0
+        [SerializeField]
         private float scale;        // 10
+        [SerializeField]
         private int seed;
 
         public NoiseMapSettings (int mapWidth, int mapHeight, float persistance, float lacunarity, int octaves, Vector2 offset, float scale, int seed)

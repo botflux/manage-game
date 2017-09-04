@@ -302,3 +302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebc3234011226c41a45b59e244f1060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings:
+    mapWidth: 50
+    mapHeight: 50
+    persistance: 2
+    lacunarity: 0.5
+    octaves: 2
+    offset: {x: 0, y: 0}
+    scale: 10
+    seed: 0

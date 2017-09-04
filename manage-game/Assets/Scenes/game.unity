@@ -312,6 +312,7 @@ MonoBehaviour:
     offset: {x: 0, y: 0}
     scale: 10
     seed: 0
+  showGizmosGrid: 0
 --- !u!114 &1788175709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,3 +326,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellulePrefab: {fileID: 1988087748334598, guid: a5edc3aaa70654f4298f6a2fdb854609,
     type: 2}
+  biomes:
+  - name: Sand
+    color: {r: 0.9666329, g: 1, b: 0.6544118, a: 0}
+    height: 0.2
+  - name: Grass
+    color: {r: 0.68194723, g: 1, b: 0.5294118, a: 0}
+    height: 0.4
+  - name: Grass 2
+    color: {r: 0.31514922, g: 0.6397059, b: 0.31738752, a: 0}
+    height: 0.6
+  - name: Rock
+    color: {r: 0.19852942, g: 0.17768988, b: 0.13283955, a: 0}
+    height: 0.8
+  - name: Snow
+    color: {r: 0.9191176, g: 0.9191176, b: 0.9191176, a: 0}
+    height: 1
